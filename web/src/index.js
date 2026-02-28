@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { WagmiConfig, configureChains, createClient } from "wagmi";
-import { alchemyProvider } from "wagmi/providers/alchemy";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { publicProvider } from "wagmi/providers/public";
 import { mainnet } from "wagmi/chains";
 import { InjectedConnector } from "wagmi/connectors/injected";
@@ -17,7 +17,17 @@ import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 const { chains, provider, webSocketProvider } = configureChains(
   [mainnet],
   [
-    alchemyProvider({ apiKey: process.env.REACT_APP_ALCHEMY_KEY }),
+    jsonRpcProvider({
+      rpc: (chain) => ({
+        http: `https://eth-mainnet.g.alchemy.com/v2/${process.env.REACT_APP_ALCHEMY_KEY}`,
+        webSocket: `wss://eth-mainnet.g.alchemy.com/v2/${process.env.REACT_APP_ALCHEMY_KEY}`,
+      }),
+    }),
+    jsonRpcProvider({
+      rpc: (chain) => ({
+        http: "https://cloudflare-eth.com",
+      }),
+    }),
     publicProvider(),
   ]
 );
