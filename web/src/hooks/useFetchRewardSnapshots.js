@@ -1,11 +1,9 @@
 import useFetchJSONZST from "./useFetchJSONZST";
 import useSetting from "./useSetting";
 
-// HACK: for now, until we have a better fix for failed IPFS publications.
+// Use jsdelivr CDN to access the official Rocket Pool Merkle trees repo with proper CORS headers.
 const fallbackBase =
-  "https://storage.googleapis.com/lgtm-info-dev-preview/rewards-trees";
-// NOTE: we can't just use "https://github.com/rocket-pool/rewards-trees/raw/main"
-//       because GitHub doesn't support CORS for raw.githubusercontent.com.
+  "https://cdn.jsdelivr.net/gh/rocket-pool/rewards-trees@main";
 
 export default function useFetchRewardSnapshots({
   snapshots,
