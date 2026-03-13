@@ -1,6 +1,10 @@
 import OperatorDistributor from "./generated/contracts/OperatorDistributor.json";
 import RocketDepositPool from "./generated/contracts/RocketDepositPool.json";
 import RocketMerkleDistributorMainnet from "./generated/contracts/RocketMerkleDistributorMainnet.json";
+import RocketMegapoolDelegate from "./generated/contracts/RocketMegapoolDelegate.json";
+import RocketMegapoolFactory from "./generated/contracts/RocketMegapoolFactory.json";
+import RocketMegapoolManager from "./generated/contracts/RocketMegapoolManager.json";
+import RocketMegapoolPenalties from "./generated/contracts/RocketMegapoolPenalties.json";
 import RocketMinipoolBase from "./generated/contracts/RocketMinipoolBase.json";
 import RocketMinipoolDelegate from "./generated/contracts/RocketMinipoolDelegate.json";
 import RocketMinipoolManager from "./generated/contracts/RocketMinipoolManager.json";
@@ -104,6 +108,23 @@ const contracts = {
   WETHVault: {
     address: "0xbb22d59b73d7a6f3a8a83a214becc67eb3b511fe",
     abi: WETHVault.abi,
+  },
+  RocketMegapoolFactory: {
+    address: "0xD5bffeaa9f373B9C367132772FAA0b88e3F0E38b",
+    abi: RocketMegapoolFactory.abi,
+  },
+  RocketMegapoolManager: {
+    address: "0xf2CCd522Ba5fFEda28fe0389963845D61F342034",
+    abi: RocketMegapoolManager.abi,
+  },
+  RocketMegapoolDelegate: {
+    // No global address — each node has its own megapool at a dynamic address
+    // Resolved via RocketMegapoolFactory.getExpectedAddress(nodeAddress)
+    abi: RocketMegapoolDelegate.abi,
+  },
+  RocketMegapoolPenalties: {
+    address: "0xa2afC3C2d8ea4eBdbE925cADe17c29517630e6aB",
+    abi: RocketMegapoolPenalties.abi,
   },
 };
 

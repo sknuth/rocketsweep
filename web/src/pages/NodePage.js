@@ -33,6 +33,9 @@ import DistributeEfficiencyAlert from "../components/DistributeEfficiencyAlert";
 import useNodeFeeDistributorInfo from "../hooks/useNodeFeeDistributorInfo";
 import contracts from "../contracts";
 import RewardsHelpInfo from "../components/RewardsHelpInfo";
+import useNodeMegapool from "../hooks/useNodeMegapool";
+import useMegapoolDetails from "../hooks/useMegapoolDetails";
+import MegapoolSummaryCard from "../components/MegapoolSummaryCard";
 
 function PeriodicRewardsHeader({ sx }) {
   return (
@@ -195,6 +198,8 @@ export default function NodePage() {
   if (!nodeAddressOrName.endsWith(".eth")) {
     nodeAddress = nodeAddressOrName;
   }
+  let { hasMegapool, megapoolAddress } = useNodeMegapool(nodeAddress);
+  let megapoolDetails = useMegapoolDetails(hasMegapool ? megapoolAddress : null);
   return (
     <Layout>
       {!nodeAddress ? (
@@ -216,6 +221,12 @@ export default function NodePage() {
               nodeAddress={nodeAddress}
               header={<ContinuousRewardsHeader nodeAddress={nodeAddress} />}
             />
+            {hasMegapool && (
+              <MegapoolSummaryCard
+                sx={{ mt: 5 }}
+                megapoolDetails={megapoolDetails}
+              />
+            )}
           </Grid>
         </Grid>
       )}
