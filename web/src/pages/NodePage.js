@@ -36,6 +36,8 @@ import RewardsHelpInfo from "../components/RewardsHelpInfo";
 import useNodeMegapool from "../hooks/useNodeMegapool";
 import useMegapoolDetails from "../hooks/useMegapoolDetails";
 import MegapoolSummaryCard from "../components/MegapoolSummaryCard";
+import useDepositPoolStatus from "../hooks/useDepositPoolStatus";
+import QueueStatusCard from "../components/QueueStatusCard";
 
 function PeriodicRewardsHeader({ sx }) {
   return (
@@ -200,6 +202,10 @@ export default function NodePage() {
   }
   let { hasMegapool, megapoolAddress } = useNodeMegapool(nodeAddress);
   let megapoolDetails = useMegapoolDetails(hasMegapool ? megapoolAddress : null);
+  let depositPoolStatus = useDepositPoolStatus();
+  let queuedValidators = (megapoolDetails?.data?.validators || [])
+    .filter(v => v.inQueue || v.inPrestake);
+  let hasQueuedValidators = queuedValidators.length > 0;
   return (
     <Layout>
       {!nodeAddress ? (
@@ -225,6 +231,13 @@ export default function NodePage() {
               <MegapoolSummaryCard
                 sx={{ mt: 5 }}
                 megapoolDetails={megapoolDetails}
+              />
+            )}
+            {hasMegapool && hasQueuedValidators && (
+              <QueueStatusCard
+                sx={{ mt: 5 }}
+                depositPoolStatus={depositPoolStatus}
+                queuedValidators={queuedValidators}
               />
             )}
           </Grid>

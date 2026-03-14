@@ -38,6 +38,25 @@ export default function useMegapoolDetails(megapoolAddress) {
         let lastDistributionTime = await mp.getLastDistributionTime();
         let balance = await provider.getBalance(megapoolAddress);
 
+        // Fetch MegapoolValidatorEnqueued events to get enqueue timestamps
+        let enqueueTimestamps = {};
+        try {
+          const enqueueFilter = mp.filters.MegapoolValidatorEnqueued();
+          const enqueueEvents = await mp.queryFilter(enqueueFilter, -2000000);
+          const uniqueBlocks = [...new Set(enqueueEvents.map(e => e.blockNumber))];
+          const blockTimestamps = {};
+          for (const blockNum of uniqueBlocks) {
+            const block = await provider.getBlock(blockNum);
+            blockTimestamps[blockNum] = block.timestamp;
+          }
+          for (const event of enqueueEvents) {
+            const validatorId = event.args.validatorId.toNumber();
+            enqueueTimestamps[validatorId] = blockTimestamps[event.blockNumber];
+          }
+        } catch (err) {
+          console.warn(`Failed to load enqueue events for ${megapoolAddress}`, err);
+        }
+
         return {
           megapoolAddress,
           nodeAddress,
@@ -60,6 +79,7 @@ export default function useMegapoolDetails(megapoolAddress) {
               ? lastDistributionTime.toNumber()
               : Number(lastDistributionTime),
           balance: balance.toHexString(),
+          enqueueTimestamps,
         };
       } catch (err) {
         console.warn(`Failed to load megapool metadata for ${megapoolAddress}`, err);
@@ -110,6 +130,7 @@ export default function useMegapoolDetails(megapoolAddress) {
             typeof info.exitBalance === "object"
               ? info.exitBalance.toNumber()
               : Number(info.exitBalance),
+          enqueueTimestamp: (metadata.data?.enqueueTimestamps || {})[i] || 0,
         };
       },
       enabled: enabled && validatorCount > 0,
