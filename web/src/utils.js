@@ -229,3 +229,25 @@ export const delegateUpgradeInterface = new ethers.utils.Interface([
 
 export const delegateUpgradeEncoded =
   delegateUpgradeInterface.encodeFunctionData("delegateUpgrade", []);
+
+export const claimInterface = new ethers.utils.Interface([
+  {
+    type: "function",
+    name: "claim",
+    inputs: [],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+]);
+
+export const claimEncoded = claimInterface.encodeFunctionData("claim");
+
+export function estimateMegapoolDistributeGas() {
+  return ethers.BigNumber.from(21000) // txn init
+    .add(150000); // typical megapool distribute call
+}
+
+export function estimateMegapoolClaimGas() {
+  return ethers.BigNumber.from(21000) // txn init
+    .add(100000); // typical megapool claim call
+}

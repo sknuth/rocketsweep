@@ -38,6 +38,8 @@ import useMegapoolDetails from "../hooks/useMegapoolDetails";
 import MegapoolSummaryCard from "../components/MegapoolSummaryCard";
 import useDepositPoolStatus from "../hooks/useDepositPoolStatus";
 import QueueStatusCard from "../components/QueueStatusCard";
+import MegapoolSweepCard from "../components/MegapoolSweepCard";
+import useMegapoolSweeper from "../hooks/useMegapoolSweeper";
 
 function PeriodicRewardsHeader({ sx }) {
   return (
@@ -206,6 +208,10 @@ export default function NodePage() {
   let queuedValidators = (megapoolDetails?.data?.validators || [])
     .filter(v => v.inQueue || v.inPrestake);
   let hasQueuedValidators = queuedValidators.length > 0;
+  let megapoolSweeper = useMegapoolSweeper({
+    megapoolAddress: hasMegapool ? megapoolAddress : null,
+    megapoolDetails,
+  });
   return (
     <Layout>
       {!nodeAddress ? (
@@ -231,6 +237,15 @@ export default function NodePage() {
               <MegapoolSummaryCard
                 sx={{ mt: 5 }}
                 megapoolDetails={megapoolDetails}
+              />
+            )}
+            {hasMegapool && (
+              <MegapoolSweepCard
+                sx={{ mt: 5 }}
+                nodeAddress={nodeAddress}
+                megapoolAddress={megapoolAddress}
+                megapoolDetails={megapoolDetails}
+                sweeper={megapoolSweeper}
               />
             )}
             {hasMegapool && hasQueuedValidators && (
