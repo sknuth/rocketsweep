@@ -489,14 +489,20 @@ function useSweeper({ nodeAddress }) {
     let sdk = new SafeAppsSDK();
     let txs = [];
     if (isClaimingInterval) {
-      let args = [
-        nodeAddress,
-        rewardIndexes,
-        amountsRpl,
-        amountsEth,
-        merkleProofs,
-        stakeAmountRpl,
-      ];
+      // Saturn 1: claimAndStake(address, Claim[], uint256)
+      // where Claim = { rewardIndex, amountRPL, amountSmoothingPoolETH, amountVoterETH, merkleProof }
+      let claims = unclaimed.map(
+        ({ rewardIndex, collateralRpl, oracleDaoRpl, smoothingPoolEth, merkleProof }) => ({
+          rewardIndex: rewardIndex,
+          amountRPL: ethers.BigNumber.from(collateralRpl || "0").add(
+            ethers.BigNumber.from(oracleDaoRpl || "0")
+          ),
+          amountSmoothingPoolETH: ethers.BigNumber.from(smoothingPoolEth || "0"),
+          amountVoterETH: ethers.constants.Zero, // new Saturn 1 field, 0 for pre-Saturn intervals
+          merkleProof: merkleProof,
+        })
+      );
+      let args = [nodeAddress, claims, stakeAmountRpl];
       txs = txs.concat([
         {
           operation: "0x00",

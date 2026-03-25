@@ -153,14 +153,15 @@ export default function ClaimAndStakeForm({
   useEffect(() => setStakeAmountRpl(totalRpl), [totalRpl.toString()]);
   let canWithdraw = useCanConnectedAccountWithdraw(nodeAddress);
   let hasProofs = merkleProofs.length && _.every(merkleProofs);
-  let args = [
-    nodeAddress,
-    rewardIndexes,
-    amountsRpl,
-    amountsEth,
-    merkleProofs,
-    stakeAmountRpl,
-  ];
+  // Saturn 1: claimAndStake(address, Claim[], uint256)
+  let claims = rewardIndexes.map((rewardIndex, i) => ({
+    rewardIndex: rewardIndex,
+    amountRPL: amountsRpl[i] || ethers.constants.Zero,
+    amountSmoothingPoolETH: amountsEth[i] || ethers.constants.Zero,
+    amountVoterETH: ethers.constants.Zero, // new Saturn 1 field
+    merkleProof: merkleProofs[i] || [],
+  }));
+  let args = [nodeAddress, claims, stakeAmountRpl];
   let claiming = useK.RocketMerkleDistributorMainnet.Write.claimAndStake({
     args,
     // don't prepare until we have the proofs
