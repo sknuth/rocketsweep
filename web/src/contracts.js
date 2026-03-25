@@ -8,6 +8,7 @@ import RocketMinipoolBase from "./generated/contracts/RocketMinipoolBase.json";
 import RocketMinipoolDelegate from "./generated/contracts/RocketMinipoolDelegate.json";
 import RocketMinipoolManager from "./generated/contracts/RocketMinipoolManager.json";
 import RocketNetworkPrices from "./generated/contracts/RocketNetworkPrices.json";
+import RocketNodeDistributorFactory from "./generated/contracts/RocketNodeDistributorFactory.json";
 import RocketNodeDistributorInterface from "./generated/contracts/RocketNodeDistributorInterface.json";
 import RocketNodeManager from "./generated/contracts/RocketNodeManager.json";
 import RocketRewardsPool from "./generated/contracts/RocketRewardsPool.json";
@@ -61,14 +62,19 @@ const contracts = {
     ],
     abi: RocketNetworkPrices.abi,
   },
+  RocketNodeDistributorFactory: {
+    address: "0xe228017f77B3E0785e794e4c0a8A6b935bB4037C",
+    abi: RocketNodeDistributorFactory.abi,
+  },
   RocketNodeDistributorInterface: {
-    // see RocketNodeManager.Read.getNodeDetails -> .feeDistributorAddress
+    // per-node fee distributor contract, address resolved via RocketNodeDistributorFactory
     abi: RocketNodeDistributorInterface.abi,
   },
   RocketNodeManager: {
     address: [
-      "0x2b52479F6ea009907e46fc43e91064D1b92Fdc86",
-      "0x89F478E6Cc24f052103628f36598D4C14Da3D287",
+      "0xcf2d76A7499d3acB5A22ce83c027651e8d76e250",  // Saturn 1
+      "0x2b52479F6ea009907e46fc43e91064D1b92Fdc86",  // pre-Saturn 1
+      "0x89F478E6Cc24f052103628f36598D4C14Da3D287",  // legacy
     ],
     abi: RocketNodeManager.abi,
   },
