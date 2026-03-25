@@ -29,13 +29,17 @@ const contracts = {
     abi: OperatorDistributor.abi,
   },
   RocketDepositPool: {
-    address: "0xDD3f50F8A6CafbE9b31a427582963f465E745AF8",
+    address: [
+      "0xCE15294273CFb9D9b628F4D61636623decDF4fdC",  // Saturn 1
+      "0xDD3f50F8A6CafbE9b31a427582963f465E745AF8",  // legacy
+    ],
     abi: RocketDepositPool.abi,
   },
   RocketMerkleDistributorMainnet: {
     address: [
-      "0x5cE71E603B138F7e65029Cc1918C0566ed0dBD4B",
-      "0x7eccbbd05830edf593d30005b8f69e965af4d59f",
+      "0xE4E2612EE8d7fdc8518Faea85770A3b9c886E2f5",  // Saturn 1
+      "0x5cE71E603B138F7e65029Cc1918C0566ed0dBD4B",  // legacy
+      "0x7eccbbd05830edf593d30005b8f69e965af4d59f",  // legacy
     ],
     abi: RocketMerkleDistributorMainnet.abi,
   },
@@ -47,11 +51,12 @@ const contracts = {
   },
   RocketMinipoolManager: {
     address: [
-      "0xF82991Bd8976c243eB3b7CDDc52AB0Fc8dc1246C",
-      "0x09fbCE43e4021a3F69C4599FF00362b83edA501E",
-      "0x6d010C43d4e96D74C422f2e27370AF48711B49bF",
-      "0x84d11b65e026f7aa08f5497dd3593fb083410b71",
-      "0x6293b8abc1f36afb22406be5f96d893072a8cf3a",
+      "0xe54B8C641fd96dE5D6747f47C19964c6b824D62C",  // Saturn 1
+      "0xF82991Bd8976c243eB3b7CDDc52AB0Fc8dc1246C",  // legacy
+      "0x09fbCE43e4021a3F69C4599FF00362b83edA501E",  // legacy
+      "0x6d010C43d4e96D74C422f2e27370AF48711B49bF",  // legacy
+      "0x84d11b65e026f7aa08f5497dd3593fb083410b71",  // legacy
+      "0x6293b8abc1f36afb22406be5f96d893072a8cf3a",  // legacy
     ],
     abi: RocketMinipoolManager.abi,
   },
@@ -80,9 +85,10 @@ const contracts = {
   },
   RocketRewardsPool: {
     address: [
-      "0xEE4d2A71cF479e0D3d0c3c2C923dbfEB57E73111",
-      "0xA805d68b61956BC92d556F2bE6d18747adAeEe82",
-      "0x594Fb75D3dc2DFa0150Ad03F99F97817747dd4E1",
+      "0xCba5951fc706Fc783b7C142DaE8576Ebe29c41FD",  // Saturn 1
+      "0xEE4d2A71cF479e0D3d0c3c2C923dbfEB57E73111",  // legacy
+      "0xA805d68b61956BC92d556F2bE6d18747adAeEe82",  // legacy
+      "0x594Fb75D3dc2DFa0150Ad03F99F97817747dd4E1",  // legacy
     ],
     abi: RocketRewardsPool.abi,
   },
