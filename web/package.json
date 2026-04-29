@@ -2,7 +2,6 @@
   "name": "web",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
   "dependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
@@ -43,8 +42,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:ci": "GENERATE_SOURCEMAP=false CI=true react-scripts build",
     "clean": "rm -rf build",
     "test": "react-scripts test",
+    "test:ci": "CI=true react-scripts test --watch=false --passWithNoTests",
     "eject": "react-scripts eject",
     "pretty": "npx prettier '**/*.js' --write",
     "pretty:check": "npx prettier '**/*.js' --check"
@@ -66,6 +67,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "engines": {
+    "node": "18.x",
+    "npm": "9.x"
   },
   "devDependencies": {
     "prettier": "^2.7.1"

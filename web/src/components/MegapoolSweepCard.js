@@ -18,7 +18,6 @@ import { useAccount } from "wagmi";
 import CurrencyValue from "./CurrencyValue";
 import { GasInfo } from "./GasInfoFooter";
 import useGasPrice from "../hooks/useGasPrice";
-import useCanConnectedAccountWithdraw from "../hooks/useCanConnectedAccountWithdraw";
 import useCouldBeSafeContract from "../hooks/useCouldBeSafeContract";
 import useNodeDetails from "../hooks/useNodeDetails";
 import SafeIcon from "./SafeIcon";
@@ -112,7 +111,6 @@ function SweepCardContent({ sweeper }) {
     isClaiming,
     setClaiming,
     debt,
-    gas,
     overall,
   } = sweeper;
 
@@ -306,10 +304,8 @@ export default function MegapoolSweepCard({
   let canWithdraw = isSafeConnected && isNodeOrWithdrawalAddress;
   let color = canWithdraw ? "primary" : "gray";
 
-  let { execute, isDistributing, isClaiming, canDistribute, overall } =
-    sweeper;
-  let hasOperations =
-    (isDistributing && canDistribute) || isClaiming;
+  let { execute, isDistributing, isClaiming, canDistribute, overall } = sweeper;
+  let hasOperations = (isDistributing && canDistribute) || isClaiming;
 
   // Pass megapoolDetails through to content for reward breakdown
   let enrichedSweeper = { ...sweeper, megapoolDetails };
@@ -326,10 +322,7 @@ export default function MegapoolSweepCard({
           arrow
           title={
             <Stack spacing={1} sx={{ m: 1 }}>
-              <ReceiptsInfo
-                amountEth={overall.eth}
-                amountGas={overall.gas}
-              />
+              <ReceiptsInfo amountEth={overall.eth} amountGas={overall.gas} />
               <Stack>
                 <Grid container columnSpacing={1} rowSpacing={0.5}>
                   {isDistributing && (

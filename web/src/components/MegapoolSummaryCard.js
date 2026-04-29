@@ -107,8 +107,7 @@ function MegapoolHeader() {
 }
 
 export default function MegapoolSummaryCard({ megapoolDetails, sx }) {
-  let { data, isLoading, validatorsLoading, validatorsLoadedCount, validatorsTotalCount } =
-    megapoolDetails;
+  let { data, isLoading, validatorsLoading } = megapoolDetails;
   let columns = VALIDATOR_COLS;
   let maxWidth = columns.reduce((sum, { width }) => sum + width, 0);
   let validators = data?.validators || [];
@@ -178,7 +177,9 @@ export default function MegapoolSummaryCard({ megapoolDetails, sx }) {
           slotProps={{
             toolbar: {
               header,
-              fileName: `rocketsweep-megapool-${data?.megapoolAddress || "unknown"}`,
+              fileName: `rocketsweep-megapool-${
+                data?.megapoolAddress || "unknown"
+              }`,
               isLoading: validatorsLoading,
             },
           }}

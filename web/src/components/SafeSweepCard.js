@@ -369,7 +369,6 @@ function useSweeper({ nodeAddress }) {
   let unclaimed = _.filter(finalized, ({ isClaimed }) => !isClaimed);
   let rewardIndexes = _.map(unclaimed, "rewardIndex");
   let amountsEth = _.map(unclaimed, "smoothingPoolEth");
-  let merkleProofs = _.map(unclaimed, "merkleProof");
   let amountsRpl = _.map(unclaimed, ({ collateralRpl, oracleDaoRpl }) =>
     // TODO: consider moving this to useNodeFinalizedRewardSnapshots
     ethers.BigNumber.from(collateralRpl || "0").add(
@@ -492,12 +491,20 @@ function useSweeper({ nodeAddress }) {
       // Saturn 1: claimAndStake(address, Claim[], uint256)
       // where Claim = { rewardIndex, amountRPL, amountSmoothingPoolETH, amountVoterETH, merkleProof }
       let claims = unclaimed.map(
-        ({ rewardIndex, collateralRpl, oracleDaoRpl, smoothingPoolEth, merkleProof }) => ({
+        ({
+          rewardIndex,
+          collateralRpl,
+          oracleDaoRpl,
+          smoothingPoolEth,
+          merkleProof,
+        }) => ({
           rewardIndex: rewardIndex,
           amountRPL: ethers.BigNumber.from(collateralRpl || "0").add(
             ethers.BigNumber.from(oracleDaoRpl || "0")
           ),
-          amountSmoothingPoolETH: ethers.BigNumber.from(smoothingPoolEth || "0"),
+          amountSmoothingPoolETH: ethers.BigNumber.from(
+            smoothingPoolEth || "0"
+          ),
           amountVoterETH: ethers.constants.Zero, // new Saturn 1 field, 0 for pre-Saturn intervals
           merkleProof: merkleProof,
         })

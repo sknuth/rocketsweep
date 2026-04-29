@@ -14,22 +14,26 @@ import App from "./App";
 import { ThemeModeProvider } from "./theme";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 
+const alchemyKey = process.env.REACT_APP_ALCHEMY_KEY;
+const walletConnectProjectId = process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID;
+
 const { chains, provider, webSocketProvider } = configureChains(
   [mainnet],
   [
-    jsonRpcProvider({
-      rpc: (chain) => ({
-        http: `https://eth-mainnet.g.alchemy.com/v2/${process.env.REACT_APP_ALCHEMY_KEY}`,
-        webSocket: `wss://eth-mainnet.g.alchemy.com/v2/${process.env.REACT_APP_ALCHEMY_KEY}`,
+    alchemyKey &&
+      jsonRpcProvider({
+        rpc: () => ({
+          http: `https://eth-mainnet.g.alchemy.com/v2/${alchemyKey}`,
+          webSocket: `wss://eth-mainnet.g.alchemy.com/v2/${alchemyKey}`,
+        }),
       }),
-    }),
     jsonRpcProvider({
-      rpc: (chain) => ({
+      rpc: () => ({
         http: "https://cloudflare-eth.com",
       }),
     }),
     publicProvider(),
-  ]
+  ].filter(Boolean)
 );
 const queryClient = new QueryClient();
 const wagmiClient = createClient({
@@ -47,13 +51,14 @@ const wagmiClient = createClient({
     new InjectedConnector({
       chains,
     }),
-    new WalletConnectConnector({
-      chains,
-      options: {
-        projectId: process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID,
-      },
-    }),
-  ],
+    walletConnectProjectId &&
+      new WalletConnectConnector({
+        chains,
+        options: {
+          projectId: walletConnectProjectId,
+        },
+      }),
+  ].filter(Boolean),
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
