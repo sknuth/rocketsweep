@@ -126,6 +126,24 @@ After merge:
 Do not use direct `dev:main` pushes for normal work. Reserve any direct
 production intervention for an explicit hotfix decision.
 
+## Incident records
+
+Record resolved or high-signal production investigations in `docs/incidents/`.
+Use this doc type when the history matters for future maintenance, such as a
+protocol upgrade, Safe transaction failure, deployment routing issue, or Discord
+support thread that explains why a bug was fixed.
+
+Incident notes should be short and evidence-backed:
+
+- use a dated filename such as `docs/incidents/2026-03-25-saturn1-safe-sweep.md`
+- separate symptoms, root causes, fixes, and remaining follow-up
+- include commits, deployments, and public support-thread facts when useful
+- avoid full node addresses, Safe addresses, private logs, or unnecessary user data
+
+Known incident notes:
+
+- `docs/incidents/2026-03-25-saturn1-safe-sweep.md`
+
 ## Vercel deployment
 
 Vercel is the deployment source of truth.

@@ -27,6 +27,23 @@
 Do not push directly to `main` during normal work. Do not advance `main`
 locally ahead of production validation.
 
+## Incident documentation
+
+When a support investigation produces durable maintenance knowledge, add or
+update an incident note under `docs/incidents/`. This is expected for protocol
+upgrade regressions, Safe transaction failures, deployment routing mistakes, and
+Discord support threads that explain a root cause.
+
+Keep incident notes factual and compact:
+
+- record dates, commits, deployments, and confirmed user-visible symptoms
+- distinguish confirmed root causes from hypotheses
+- mask or omit full node addresses, Safe addresses, and private user data
+- link the incident from `MAINTENANCE.md` when it becomes a canonical reference
+
+For example, if Tarik's Safe sweep issue is confirmed and resolved, create a
+new dated incident note instead of burying the history in chat context.
+
 Recommended GitHub branch protection for `main`:
 
 - require pull requests before merging
