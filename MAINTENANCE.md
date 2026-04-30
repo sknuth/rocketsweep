@@ -86,6 +86,46 @@ Notes:
 - `GENERATE_SOURCEMAP=false` avoids noisy dependency source map output in CI builds
 - `test:ci` passes cleanly even when no Jest tests exist yet
 
+## Deployment governance
+
+Use `main` as the protected production branch. Normal deployment changes must
+go through a pull request before they can reach production.
+
+Recommended GitHub settings for `main`:
+
+- require a pull request before merging
+- require the Web CI status check before merging
+- block force pushes
+- keep administrators under the same rule when practical
+
+Recommended review flow:
+
+```sh
+cd ~/Projects/Rocketsweep/dev
+git fetch origin --prune
+git rebase origin/main
+npm run build:ci
+npm run test:ci
+git push origin dev:deploy/<short-topic>
+```
+
+Then open a pull request from `deploy/<short-topic>` to `main`.
+
+Before merge:
+
+- GitHub Actions must pass on the pull request
+- Vercel preview deployment must be inspected
+- browser smoke tests must pass against the preview URL
+
+After merge:
+
+- Vercel production deployment must be `Ready`
+- smoke tests must pass on `https://rocketsweep.vercel.app`
+- only then realign `~/Projects/Rocketsweep/main` with `origin/main`
+
+Do not use direct `dev:main` pushes for normal work. Reserve any direct
+production intervention for an explicit hotfix decision.
+
 ## Vercel deployment
 
 Vercel is the deployment source of truth.
@@ -142,7 +182,7 @@ the frontend bundle to keep keys secret.
 Deployment flow:
 
 - Pull requests get Vercel preview deployments from the connected GitHub project
-- Merges to `main` trigger the production Vercel deployment
+- Merges to protected `main` trigger the production Vercel deployment
 - GitHub Actions run validation only and do not deploy
 - Firebase deployment workflows have been removed from this repo
 - `rocketsweep.app` remains outside this fork's deployment path unless the upstream domain owner redirects it
