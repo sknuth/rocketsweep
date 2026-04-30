@@ -15,12 +15,24 @@
 1. Make changes in `dev`.
 2. Validate locally from `dev`, including production-style web checks.
 3. Commit from `dev` using the project commit semantics.
-4. Push the validated `dev` commit to the remote deployment branch.
-5. Verify GitHub CI and Vercel production.
-6. After production is validated, realign the local `main` worktree with
+4. Push the validated `dev` commit to a remote review branch, not directly to
+   `main`.
+5. Open a pull request from the review branch to `main`.
+6. Verify GitHub Actions and the Vercel preview deployment on the pull request.
+7. Merge only after CI and preview validation are both green.
+8. Verify the production Vercel deployment from `main`.
+9. After production is validated, realign the local `main` worktree with
    `origin/main`.
 
-Do not advance `main` locally ahead of production validation.
+Do not push directly to `main` during normal work. Do not advance `main`
+locally ahead of production validation.
+
+Recommended GitHub branch protection for `main`:
+
+- require pull requests before merging
+- require the Web CI status check before merging
+- block force pushes
+- keep Vercel connected to `main` for production deployments
 
 ## Web validation
 
